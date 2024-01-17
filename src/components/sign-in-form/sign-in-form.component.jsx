@@ -4,6 +4,8 @@ import FormInput from '../form-input/form-input.component';
 
 import Button from '../custom-button/custom-button.component';
 
+
+
 import {
   signInWithGooglePopup,
   createUserDocFromAuth,
@@ -21,16 +23,18 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(
     defaultFormFields,
   );
-
   const { email, password } = formFields;
+
+  
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocFromAuth(user);
+    await signInWithGooglePopup();
+   // setCurrentUser(user);
+    
   };
 
   
@@ -39,12 +43,13 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response =
+      const {user} =
         await signInAuthenticatedUserWithEmailAndPassword(
           email,
           password,
         );
-      console.log(response);
+      //  setCurrentUser(user);
+      
       resetFormFields();
     } catch (error) {
       switch (error.code) {
@@ -89,7 +94,6 @@ const SignInForm = () => {
         />
         <div className='buttons-container'>
           <Button type='submit'>Sign In</Button>
-          
           <Button
             type='button'
             buttonType='google'
